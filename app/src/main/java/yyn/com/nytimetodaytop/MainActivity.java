@@ -1,9 +1,13 @@
 package yyn.com.nytimetodaytop;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
@@ -15,11 +19,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import yyn.com.nytimetodaytop.util.PermissionUtil;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,TopsFragment.OnFragmentInteractionListener {
     private final static String TAG = "MainActivity";
     private boolean isMainView = true;
+    private static final int READ_PHONE_STATE_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,4 +138,39 @@ public class MainActivity extends AppCompatActivity
     public void onFragmentListItemSelected(int position) {
         Log.d(TAG,"item selected:" + position);
     }
+
+    private void requestPermissions(){
+        // permissions for device info
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            // has NOT grant location permission
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                    Manifest.permission.READ_PHONE_STATE)) {
+                // Display a dialog with rationale to get permission
+                // this only works in versions above Lollipop( Android 5.0)
+                PermissionUtil.RationaleDialog.newInstance(READ_PHONE_STATE_REQUEST_CODE, false)
+                        .show(getSupportFragmentManager(), "dialog");
+            } else {
+                PermissionUtil.requestPermission(MainActivity.this, READ_PHONE_STATE_REQUEST_CODE,
+                        Manifest.permission.READ_PHONE_STATE, false);
+            }
+        } else {
+            TopsApp.getInstance().extractDeviceID();
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        // called when permission request finish
+        if (requestCode == READ_PHONE_STATE_REQUEST_CODE) {
+            // the permission has been granted.
+            if (PermissionUtil.isPermissionGranted(permissions, grantResults,
+                    Manifest.permission.READ_PHONE_STATE) &&
+                    ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) ==
+                            PackageManager.PERMISSION_GRANTED) {
+                TopsApp.getInstance().extractDeviceID();
+            }
+        }
+    }
+
 }

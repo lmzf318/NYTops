@@ -10,4 +10,11 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--    Permissions    -->
+    <string name="permission_rationale">Permissions are required TODO.
+    </string>
+    <string name="permission_denied">Please enable necessary permissions.
+    </string>
+    <string name="permission_required_toast">Permissions are required for this app.</string>
 </resources>
