@@ -1,3 +1,3 @@
 # NYTops
 
-A tiny application to fetch tops news from New Yok Times open API
+A tiny application to fetch top news from New York Times open API
