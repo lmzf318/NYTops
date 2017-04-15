@@ -13,4 +13,9 @@ public class Constants {
     public final static String CAT_OP = "opinion";
     public final static String CAT_WORLD = "world";
     public final static String CAT_NA = "national";
+
+    // JSON
+    public final static String JSON_ALL_NEWS = "results";
+    public final static String JSON_STR_TARGET = "abstract";
+    public final static String JSON_STR_DESTINATION = "abstractStr";
 }

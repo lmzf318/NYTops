@@ -1,34 +1,51 @@
 package yyn.com.nytimetodaytop.server.TopsResponse;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Created by jiy on 2017-04-14.
  */
 public class NewsItem {
-//    "section": "World",
-//            "subsection": "Asia Pacific",
-//            "title": "China Warns of ‘Storm Clouds Gathering’ in U.S.-North Korea Standoff",
-//            "abstract": "Beijing urged an end to “mutual provocation and threats,” cautioning that tensions on the Korean Peninsula could run out of control.",
-//            "url": "https://www.nytimes.com/2017/04/14/world/asia/north-korea-china-nuclear.html",
-//            "byline": "By GERRY MULLANY and CHRIS BUCKLEY",
-//            "item_type": "Article",
-//            "updated_date": "2017-04-14T13:33:10-04:00",
-//            "created_date": "2017-04-14T07:57:21-04:00",
-//            "published_date": "2017-04-14T07:57:21-04:00",
-//            "material_type_facet": "",
-//            "kicker": "",
-//            "des_facet": [
-//            "International Relations",
-//            "Nuclear Tests"
-//            ],
-//            "org_facet": [],
-//            "per_facet": [
-//            "Kim Jong-un",
-//            "Xi Jinping"
-//            ],
-//            "geo_facet": [
-//            "North Korea",
-//            "China",
-//            "United States"
-//            ],
-//            "multimedia": [
+    public String section;
+    public String subsection;
+    public String title;
+    public String abstractStr;
+    public String url;
+    public String byline;
+    public String item_type;
+    public String updated_date;
+    public String created_date;
+    public String published_date;
+    public String material_type_facet;
+    public String kicker;
+    public String[] des_facet;
+    public String[] org_facet;
+    public String[] per_facet;
+    public String[] geo_facet;
+//    public ArrayList<NewsItemImage> images;
+    public NewsItemImage[] multimedia;
+
+    @Override
+    public String toString() {
+        return "NewsItem{" +
+                "section='" + section + '\'' +
+                ", subsection='" + subsection + '\'' +
+                ", title='" + title + '\'' +
+                ", abstractStr='" + abstractStr + '\'' +
+                ", url='" + url + '\'' +
+                ", byline='" + byline + '\'' +
+                ", item_type='" + item_type + '\'' +
+                ", updated_date='" + updated_date + '\'' +
+                ", created_date='" + created_date + '\'' +
+                ", published_date='" + published_date + '\'' +
+                ", material_type_facet='" + material_type_facet + '\'' +
+                ", kicker='" + kicker + '\'' +
+                ", des_facet=" + Arrays.toString(des_facet) +
+                ", org_facet=" + Arrays.toString(org_facet) +
+                ", per_facet=" + Arrays.toString(per_facet) +
+                ", geo_facet=" + Arrays.toString(geo_facet) +
+                ", multimedia=" + Arrays.toString(multimedia) +
+                '}';
+    }
 }
