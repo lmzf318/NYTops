@@ -13,13 +13,13 @@ import java.util.UUID;
  */
 public class DeviceUtil {
     public static String getDeviceID() {
-        final TelephonyManager tm = (TelephonyManager) TopsApp.getContext().getSystemService(Context.TELEPHONY_SERVICE);
+        final TelephonyManager tm = (TelephonyManager) TopsApp.getInstance().getContext().getSystemService(Context.TELEPHONY_SERVICE);
 
         final String tmDevice, tmSerial, androidId;
         tmDevice = "" + tm.getDeviceId();
         tmSerial = "" + tm.getSimSerialNumber();
         androidId = "" + android.provider.Settings.Secure.getString(
-                TopsApp.getContext().getContentResolver(),
+                TopsApp.getInstance().getContext().getContentResolver(),
                 android.provider.Settings.Secure.ANDROID_ID
         );
 

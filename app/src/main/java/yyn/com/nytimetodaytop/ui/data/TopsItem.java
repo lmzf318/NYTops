@@ -1,4 +1,4 @@
-package yyn.com.nytimetodaytop.data;
+package yyn.com.nytimetodaytop.ui.data;
 
 /**
  * Created by jiy on 2017-04-12.

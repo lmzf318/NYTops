@@ -23,7 +23,6 @@ public class NewsItem {
     public String[] org_facet;
     public String[] per_facet;
     public String[] geo_facet;
-//    public ArrayList<NewsItemImage> images;
     public NewsItemImage[] multimedia;
 
     @Override

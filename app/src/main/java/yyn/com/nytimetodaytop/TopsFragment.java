@@ -5,10 +5,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import yyn.com.nytimetodaytop.server.TopsApi;
+import yyn.com.nytimetodaytop.server.TopsResponse.TopsResponse;
+import yyn.com.nytimetodaytop.ui.TopsListAdapter;
+import yyn.com.nytimetodaytop.ui.data.TopsItem;
+import yyn.com.nytimetodaytop.util.DataUtil;
+
+import java.util.ArrayList;
 
 
 /**
@@ -20,6 +28,7 @@ import yyn.com.nytimetodaytop.server.TopsApi;
  * create an instance of this fragment.
  */
 public class TopsFragment extends Fragment {
+    private final static String TAG = "TopsFragment";
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,6 +38,8 @@ public class TopsFragment extends Fragment {
     // TODO: can be used to load different kinds of list: top stories, articles, etc.
     private String mParam1;
     private String mParam2;
+
+    private TopsListAdapter mAdapter = null;
 
     private OnFragmentInteractionListener mListener;
 
@@ -74,7 +85,35 @@ public class TopsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        initViews();
+
+        TopsApi.setResListener(new TopsApi.TopsResListener() {
+            @Override
+            public void onSuccess(TopsResponse response) {
+                if(mAdapter.isItemsEmpty()){
+                    mAdapter.update(DataUtil.TopsToListItem(response.results));
+                }else{
+                    // TODO check if updated response is new or just equals to current ones
+                    mAdapter.append(DataUtil.TopsToListItem(response.results));
+                }
+
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(int status) {
+                Log.d(TAG,"onFailure status code: " + status);
+                // TODO toast notify user
+            }
+        });
         TopsApi.getHomeTops();
+    }
+
+    private void initViews(){
+        ListView listView = (ListView) getView().findViewById(R.id.tops_list);
+        // TODO get previous data from cache
+        mAdapter = new TopsListAdapter(TopsApp.getInstance().getContext(), new ArrayList<TopsItem>());
+        listView.setAdapter(mAdapter);
     }
 
     // notify parent activity which item is selected

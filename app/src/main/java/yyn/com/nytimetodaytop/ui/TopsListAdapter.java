@@ -9,7 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import yyn.com.nytimetodaytop.R;
-import yyn.com.nytimetodaytop.data.TopsItem;
+import yyn.com.nytimetodaytop.ui.data.TopsItem;
+import yyn.com.nytimetodaytop.util.DataUtil;
 
 import java.util.List;
 
@@ -23,6 +24,18 @@ public class TopsListAdapter extends BaseAdapter {
     public TopsListAdapter(Context context, List<TopsItem> items) {
         this.context = context;
         this.items = items;
+    }
+
+    public boolean isItemsEmpty() {
+        return items.isEmpty();
+    }
+
+    public void update(List<TopsItem> items) {
+        this.items = items;
+    }
+
+    public void append(List<TopsItem> items) {
+        this.items.addAll(0, items);
     }
 
     @Override
@@ -44,10 +57,10 @@ public class TopsListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
 
-        if(convertView==null){
+        if (convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.tops_list_item,parent,false);
+            convertView = inflater.inflate(R.layout.tops_list_item, parent, false);
 
             viewHolder.sectionTextView = (TextView) convertView.findViewById(R.id.tops_list_section);
             viewHolder.titleTextView = (TextView) convertView.findViewById(R.id.tops_list_title);
@@ -55,7 +68,7 @@ public class TopsListAdapter extends BaseAdapter {
             viewHolder.thumbnail = (ImageView) convertView.findViewById(R.id.tops_list_thumbnail);
 
             convertView.setTag(viewHolder);
-        }else{
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
@@ -65,19 +78,21 @@ public class TopsListAdapter extends BaseAdapter {
         viewHolder.sectionTextView.setText(item.getTitle());
         viewHolder.sectionTextView.setText(item.getAbs());
 
-        Picasso.with(context)
-                .load(item.getImageUrl())
-                .placeholder(android.R.drawable.sym_def_app_icon)
-                .error(android.R.drawable.sym_def_app_icon)
-                .resizeDimen(R.dimen.tops_item_image_size, R.dimen.tops_item_image_size)
-                .centerInside()
-                .tag(context)
-                .into(viewHolder.thumbnail);
+        if (!DataUtil.isEmpty(item.getImageUrl())) {
+            Picasso.with(context)
+                    .load(item.getImageUrl())
+                    .placeholder(android.R.drawable.sym_def_app_icon)
+                    .error(android.R.drawable.sym_def_app_icon)
+                    .resizeDimen(R.dimen.tops_item_image_size, R.dimen.tops_item_image_size)
+                    .centerInside()
+                    .tag(context)
+                    .into(viewHolder.thumbnail);
+        }
 
         return convertView;
     }
 
-    static class ViewHolder{
+    static class ViewHolder {
         TextView sectionTextView;
         TextView titleTextView;
         TextView absTextView;

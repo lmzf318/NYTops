@@ -12,7 +12,6 @@ public class TopsResponse {
     public String section;
     public String last_updated;
     public int num_results;
-//    public ArrayList<NewsItem> items;
     public NewsItem[] results;
 
     @Override
