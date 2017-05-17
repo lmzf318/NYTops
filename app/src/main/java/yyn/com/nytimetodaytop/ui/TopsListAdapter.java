@@ -1,6 +1,7 @@
 package yyn.com.nytimetodaytop.ui;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import java.util.List;
  * Created by jiy on 2017-04-12.
  */
 public class TopsListAdapter extends BaseAdapter {
+    private final static String TAG = "TopsListAdapter";
+
     private Context context = null;
     private List<TopsItem> items = null;
 
@@ -74,9 +77,12 @@ public class TopsListAdapter extends BaseAdapter {
 
         TopsItem item = items.get(position);
 
+        Log.d(TAG,"section: " + item.getSection());
+        Log.d(TAG,"title: " + item.getTitle());
+        Log.d(TAG,"abs: " + item.getAbs());
         viewHolder.sectionTextView.setText(item.getSection());
-        viewHolder.sectionTextView.setText(item.getTitle());
-        viewHolder.sectionTextView.setText(item.getAbs());
+        viewHolder.titleTextView.setText(item.getTitle());
+        viewHolder.absTextView.setText(item.getAbs());
 
         if (!DataUtil.isEmpty(item.getImageUrl())) {
             Picasso.with(context)

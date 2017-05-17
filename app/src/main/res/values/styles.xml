@@ -14,4 +14,55 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
+    <!--parent configuration for TextView-->
+    <style name="TextParent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textColor">@color/text_global_blue</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="ListItemMainText" parent="TextParent">
+        <item name="android:textColor">@color/text_global_blue</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+    </style>
+
+    <style name="ListItemNormalText" parent="TextParent">
+        <item name="android:textColor">@color/text_inactive</item>
+    </style>
+
+    <style name="ListItemIcon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:maxWidth">@dimen/list_item_icon_max</item>
+        <item name="android:maxHeight">@dimen/list_item_icon_max</item>
+    </style>
+
+    <style name="GlobalButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/btn_global</item>
+        <item name="android:textColor">@color/text_active</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="GlobalFloatingButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_margin">@dimen/fab_margin</item>
+    </style>
+
+    <style name="GlobalTextView" parent="TextParent">
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+    </style>
+
+    <style name="InputTextView" parent="TextParent">
+        <item name="android:textColor">@color/text_active</item>
+    </style>
+
 </resources>

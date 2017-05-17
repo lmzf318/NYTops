@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import yyn.com.nytimetodaytop.server.TopsApi;
 import yyn.com.nytimetodaytop.server.TopsResponse.TopsResponse;
@@ -114,6 +115,17 @@ public class TopsFragment extends Fragment {
         // TODO get previous data from cache
         mAdapter = new TopsListAdapter(TopsApp.getInstance().getContext(), new ArrayList<TopsItem>());
         listView.setAdapter(mAdapter);
+        listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                onListItemSelected(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                onListItemSelected(-1);
+            }
+        });
     }
 
     // notify parent activity which item is selected
