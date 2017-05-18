@@ -26,7 +26,7 @@
 
     <style name="ListItemMainText" parent="TextParent">
         <item name="android:textColor">@color/text_global_blue</item>
-        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <!--<item name="android:textAppearance">?android:attr/textAppearanceLarge</item>-->
     </style>
 
     <style name="ListItemNormalText" parent="TextParent">

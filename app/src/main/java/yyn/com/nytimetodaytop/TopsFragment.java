@@ -1,7 +1,6 @@
 package yyn.com.nytimetodaytop;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,10 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import yyn.com.nytimetodaytop.data.DataHolder;
 import yyn.com.nytimetodaytop.server.TopsApi;
 import yyn.com.nytimetodaytop.server.TopsResponse.TopsResponse;
 import yyn.com.nytimetodaytop.ui.TopsListAdapter;
-import yyn.com.nytimetodaytop.ui.data.TopsItem;
+import yyn.com.nytimetodaytop.data.TopsItem;
+import yyn.com.nytimetodaytop.util.ActionUtil;
 import yyn.com.nytimetodaytop.util.DataUtil;
 
 import java.util.ArrayList;
@@ -91,11 +92,11 @@ public class TopsFragment extends Fragment {
         TopsApi.setResListener(new TopsApi.TopsResListener() {
             @Override
             public void onSuccess(TopsResponse response) {
-                if(mAdapter.isItemsEmpty()){
-                    mAdapter.update(DataUtil.TopsToListItem(response.results));
+                if(DataHolder.getInstance().topsSize()==0){
+                    DataHolder.getInstance().update(DataUtil.TopsToListItem(response.results));
                 }else{
                     // TODO check if updated response is new or just equals to current ones
-                    mAdapter.append(DataUtil.TopsToListItem(response.results));
+                    DataHolder.getInstance().append(DataUtil.TopsToListItem(response.results));
                 }
 
                 mAdapter.notifyDataSetChanged();
@@ -111,10 +112,19 @@ public class TopsFragment extends Fragment {
     }
 
     private void initViews(){
-        ListView listView = (ListView) getView().findViewById(R.id.tops_list);
+        final ListView listView = (ListView) getView().findViewById(R.id.tops_list);
         // TODO get previous data from cache
-        mAdapter = new TopsListAdapter(TopsApp.getInstance().getContext(), new ArrayList<TopsItem>());
+        mAdapter = new TopsListAdapter(listView,getActivity());
         listView.setAdapter(mAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                listView.setSelection(position);
+                ActionUtil.openUrl(getActivity(),DataHolder.getInstance().getTops().get(position).getUrl());
+            }
+        });
+
         listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

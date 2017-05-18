@@ -1,4 +1,4 @@
-package yyn.com.nytimetodaytop.ui.data;
+package yyn.com.nytimetodaytop.data;
 
 /**
  * Created by jiy on 2017-04-12.
@@ -8,12 +8,22 @@ public class TopsItem {
     private String title = null;
     private String abs = null;
     private String imageUrl = null;
+    private String url = null;
 
-    public TopsItem(String section, String title, String abs, String imageUrl) {
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public TopsItem(String section, String title, String abs, String imageUrl, String url) {
         this.section = section;
         this.title = title;
         this.abs = abs;
         this.imageUrl = imageUrl;
+        this.url = url;
     }
 
     public String getSection() {

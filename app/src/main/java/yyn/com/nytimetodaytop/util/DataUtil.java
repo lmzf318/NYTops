@@ -1,8 +1,7 @@
 package yyn.com.nytimetodaytop.util;
 
 import yyn.com.nytimetodaytop.server.TopsResponse.NewsItem;
-import yyn.com.nytimetodaytop.server.TopsResponse.TopsResponse;
-import yyn.com.nytimetodaytop.ui.data.TopsItem;
+import yyn.com.nytimetodaytop.data.TopsItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,15 +11,15 @@ import java.util.List;
  */
 public class DataUtil {
     // convert received data to list view items
-    public static List<TopsItem> TopsToListItem(NewsItem[] source){
+    public static List<TopsItem> TopsToListItem(NewsItem[] source) {
         List<TopsItem> desList = new ArrayList<>();
-        for(NewsItem item:source){
-            desList.add(new TopsItem(item.section,item.title,item.abstractStr,item.multimedia.length==0?null:item.multimedia[0].url));
+        for (NewsItem item : source) {
+            desList.add(new TopsItem(item.section, item.title, item.abstractStr, item.multimedia.length == 0 ? null : item.multimedia[0].url, item.url));
         }
         return desList;
     }
 
-    public static boolean isEmpty(String str){
+    public static boolean isEmpty(String str) {
         return ((null == str) || (str.length() < 1));
     }
 }

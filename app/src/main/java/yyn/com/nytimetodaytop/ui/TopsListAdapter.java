@@ -5,12 +5,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
 import com.squareup.picasso.Picasso;
 import yyn.com.nytimetodaytop.R;
-import yyn.com.nytimetodaytop.ui.data.TopsItem;
+import yyn.com.nytimetodaytop.data.DataHolder;
+import yyn.com.nytimetodaytop.data.TopsItem;
+import yyn.com.nytimetodaytop.util.ActionUtil;
 import yyn.com.nytimetodaytop.util.DataUtil;
 
 import java.util.List;
@@ -21,34 +21,22 @@ import java.util.List;
 public class TopsListAdapter extends BaseAdapter {
     private final static String TAG = "TopsListAdapter";
 
+    private ListView listView = null;
     private Context context = null;
-    private List<TopsItem> items = null;
 
-    public TopsListAdapter(Context context, List<TopsItem> items) {
+    public TopsListAdapter(ListView listView, Context context) {
+        this.listView = listView;
         this.context = context;
-        this.items = items;
-    }
-
-    public boolean isItemsEmpty() {
-        return items.isEmpty();
-    }
-
-    public void update(List<TopsItem> items) {
-        this.items = items;
-    }
-
-    public void append(List<TopsItem> items) {
-        this.items.addAll(0, items);
     }
 
     @Override
     public int getCount() {
-        return items.size();
+        return DataHolder.getInstance().topsSize();
     }
 
     @Override
     public Object getItem(int position) {
-        return items.get(position);
+        return DataHolder.getInstance().getTops().get(position);
     }
 
     @Override
@@ -57,7 +45,7 @@ public class TopsListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         ViewHolder viewHolder;
 
         if (convertView == null) {
@@ -75,14 +63,20 @@ public class TopsListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        TopsItem item = items.get(position);
+        TopsItem item = DataHolder.getInstance().getTops().get(position);
 
-        Log.d(TAG,"section: " + item.getSection());
-        Log.d(TAG,"title: " + item.getTitle());
-        Log.d(TAG,"abs: " + item.getAbs());
+        Log.d(TAG, "section: " + item.getSection());
+        Log.d(TAG, "title: " + item.getTitle());
+        Log.d(TAG, "abs: " + item.getAbs());
         viewHolder.sectionTextView.setText(item.getSection());
         viewHolder.titleTextView.setText(item.getTitle());
         viewHolder.absTextView.setText(item.getAbs());
+        viewHolder.absTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listView.performItemClick(listView.findViewWithTag(getItem(position)), position, getItemId(position));
+            }
+        });
 
         if (!DataUtil.isEmpty(item.getImageUrl())) {
             Picasso.with(context)
